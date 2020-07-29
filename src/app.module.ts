@@ -3,14 +3,19 @@ import  { MongooseModule }  from  "@nestjs/mongoose";
 import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
 import { AuthModule } from './auth/auth.module';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://root:DTBURieO6d9vbuvd@cluster0.kpyrn.gcp.mongodb.net/app?retryWrites=true&w=majority'),
+    MongooseModule.forRoot(process.env.DB_HOST),
     UsersModule,
     TasksModule,
-    AuthModule
+    AuthModule,
   ]
 })
-export class AppModule {}
+
+export class AppModule {
+  
+}

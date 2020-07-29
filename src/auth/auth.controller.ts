@@ -9,12 +9,12 @@ export class AuthController {
 
     @UseGuards(LocalAuthGuard)
     @Post('/signin')
-    async signin(@Req() req: Request): Promise<any> {
+    async signin(@Req() req: Request | Record<string,any>): Promise<any> {
         return await this.authService.signin(req.user);
     }
 
     @Post('/signup')
-    async singup(@Req() req: Request): Promise<any> {
+    async singup(@Req() req:  Request | Record<string,any>): Promise<any> {
         return await this.authService.signup(req.body);
     }
 
