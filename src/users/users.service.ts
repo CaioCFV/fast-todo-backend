@@ -17,7 +17,7 @@ export class UsersService {
     //VALIDATE FIELDS
     const fields = validateEmpty(userDto);
     if(fields.length){
-      throw new HttpException('fields empty',HttpStatus.BAD_REQUEST);
+      throw new HttpException('Existem campos vazios',HttpStatus.BAD_REQUEST);
     }
     
     //VALIDATE USER ACCOUNT
@@ -25,7 +25,7 @@ export class UsersService {
 
     //CREATE USER IF NOT EXISTS
     if(user){
-      throw new HttpException('user already exists',HttpStatus.CONFLICT);
+      throw new HttpException('Nome de usuário indisponível',HttpStatus.CONFLICT);
     }else{
       const hash = await bcrypt.hash(userDto.password, 8);
       const userCreated = new this.userModel({...userDto,password:hash});
@@ -39,7 +39,7 @@ export class UsersService {
       const user = await this.userModel.findById(user_id);
       return user;
     }catch(err){
-      throw new HttpException('user not exists',HttpStatus.BAD_REQUEST);
+      throw new HttpException('Usuário nao existe',HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -55,13 +55,13 @@ export class UsersService {
   async update(data: UserDto, userId: string): Promise<any>{
     //validate to username
     if(data.username){
-      throw new HttpException('field not alterable',HttpStatus.FORBIDDEN);
+      throw new HttpException('Nome de usuário não pode ser alterado',HttpStatus.FORBIDDEN);
     }
 
     //validate to empty fields
     const fieldsEmpty = validateEmpty(data);
     if(fieldsEmpty.length){
-      throw new HttpException('fields empty',HttpStatus.BAD_REQUEST);
+      throw new HttpException('Existem campos vazios',HttpStatus.BAD_REQUEST);
     }
 
     //validate to password update

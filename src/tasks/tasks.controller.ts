@@ -33,6 +33,5 @@ export class TasksController {
   async delete(@Param('id') taskId: string, @Req() req: Request | Record<string,any>): Promise<Task> {
     return await this.tasksService.delete(taskId,req.user.userId)
   }
-
-
+  
 }

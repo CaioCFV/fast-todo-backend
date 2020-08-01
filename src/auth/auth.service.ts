@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
@@ -19,6 +19,8 @@ export class AuthService {
             if(validate){
                 return user;
             }
+        }else{
+            throw new HttpException('Usuário não encontrado',HttpStatus.NOT_FOUND);
         }
 
         return null;

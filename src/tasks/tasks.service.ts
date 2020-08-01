@@ -20,7 +20,7 @@ export class TasksService {
       }
       const task = await this.taskModel.findOne({name:createTaskDto.name,user_id:userId})
       if(task){
-        throw new HttpException('task name already exists',HttpStatus.CONFLICT);
+        throw new HttpException('Já existe uma tarefa com este nome',HttpStatus.CONFLICT);
       }else{
         const taskCreated = new this.taskModel({...createTaskDto, user_id:userId});
         return taskCreated.save();
@@ -36,7 +36,7 @@ export class TasksService {
     //validate to empty fields
     const fieldsEmpty = validateEmpty(data);
     if(fieldsEmpty.length){
-      throw new HttpException('fields empty',HttpStatus.BAD_REQUEST);
+      throw new HttpException('Existem campos vazios',HttpStatus.BAD_REQUEST);
     }
     
     if(data.name){
@@ -46,7 +46,7 @@ export class TasksService {
           throw new BadRequestException();
         }
       }catch(err){
-        throw new HttpException('task already exists or task not found',HttpStatus.CONFLICT);
+        throw new HttpException('Tarefa já existe ou não foi encontrada',HttpStatus.CONFLICT);
       }
     }
     try{
