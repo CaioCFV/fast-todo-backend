@@ -36,8 +36,8 @@ export class UsersService {
 
   async findById(user_id: string): Promise<string | any> {
     try{
-      const user = await this.userModel.findById(user_id);
-      return user;
+      const {_id,username,nickname} = await this.userModel.findById(user_id);
+      return  {_id,username,nickname};
     }catch(err){
       throw new HttpException('Usuário nao existe',HttpStatus.BAD_REQUEST);
     }

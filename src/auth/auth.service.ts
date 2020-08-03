@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
@@ -13,9 +13,7 @@ export class AuthService {
 
     async validateUser(username: string, password: string): Promise<any> {
         const user = await this.usersService.findOne(username);
-
         if (user) {
-            
             const validate = await bcrypt.compare(password,user.password);
             if(validate){
                 return user;
@@ -23,7 +21,6 @@ export class AuthService {
         }else{
             throw new HttpException('Usuário não encontrado',HttpStatus.NOT_FOUND);
         }
-
         return null;
     }
 
@@ -41,6 +38,15 @@ export class AuthService {
         return {
           access_token: this.jwtService.sign(payload),
         };
+    }
+
+    async getUserInfo(user: Record<string,any>): Promise<any> {
+        try{
+            const userInfo = await this.usersService.findById(user.userId);
+            return userInfo;
+        }catch(err){
+            throw new UnauthorizedException();
+        }
     }
 
 }

@@ -41,7 +41,8 @@ export class TasksService {
     
     if(data.name){
       try{
-        const task = await this.taskModel.findOne({name:data.name,user_id:userId,_id:taskId});
+        const task = await this.taskModel.findOne({name:data.name,user_id:userId});
+        console.log(task)
         if(task){
           throw new BadRequestException();
         }
